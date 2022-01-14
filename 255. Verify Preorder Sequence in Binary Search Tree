@@ -49,3 +49,27 @@ class Solution {
         return true;
     }
 }
+
+
+
+
+public class Solution {
+    int idx;
+    int[] pre;
+    public int solve(int[] A) {
+        idx = 0;
+        pre = A;
+        helper(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return idx == pre.length ? 1 : 0;
+    }
+
+    void helper(int min, int max) {
+        if( idx >= pre.length || pre[idx] < min || pre[idx] > max) return;
+        
+        idx++;
+        helper(min, pre[idx-1]);
+        helper(pre[idx-1], max);
+        
+        return;
+    }
+}
