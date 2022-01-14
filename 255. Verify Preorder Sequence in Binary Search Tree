@@ -1,0 +1,51 @@
+255. Verify Preorder Sequence in Binary Search Tree
+Medium
+
+874
+
+67
+
+Add to List
+
+Share
+Given an array of unique integers preorder, return true if it is the correct preorder traversal sequence of a binary search tree.
+
+ 
+
+Example 1:
+
+
+Input: preorder = [5,2,1,3,6]
+Output: true
+Example 2:
+
+Input: preorder = [5,2,6,1,3]
+Output: false
+ 
+
+Constraints:
+
+1 <= preorder.length <= 104
+1 <= preorder[i] <= 104
+All the elements of preorder are unique.
+ 
+
+Follow up: Could you do it using only constant space complexity?
+
+
+class Solution {
+    public boolean verifyPreorder(int[] preorder) {
+        int r = Integer.MIN_VALUE;
+        Stack<Integer> s = new Stack();
+        for(int ele:preorder){
+            if(ele<r){
+                return false;
+            }
+            while(!s.isEmpty() && ele>s.peek()){
+                r = s.pop();
+            }
+            s.push(ele);
+        }
+        return true;
+    }
+}
