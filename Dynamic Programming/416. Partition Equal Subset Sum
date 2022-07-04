@@ -77,3 +77,87 @@ class Solution {
         
     }
 }
+
+
+
+
+2D memoized 
+
+class Solution {
+    
+    Boolean[][] map;
+    
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        int len = nums.length;
+        for(int ele:nums){
+            sum += ele;
+        }
+        
+        map = new Boolean[len+1][(sum/2)+1];
+        
+        if(sum%2 != 0){
+            return false;
+        }
+        
+        partition(nums, sum/2, len);
+        return map[len][sum/2];
+    }
+    
+    void partition(int[] nums, int sum, int index){
+        
+//         if(map[index][sum] != null){
+//             return map[index][sum];
+//         }
+        
+//         if(sum == 0){
+//             return true;
+//         }
+        
+//         if(index == 0){
+//             return false;
+//         }
+        
+//         map[index][sum] = partition(nums, sum, index-1);
+//         if(nums[index-1] <= sum){
+//             map[index][sum] = partition(nums,sum-nums[index-1],index-1) || map[index][sum];
+//         }
+        
+//         return map[index][sum];
+        
+        for(int i=0;i<=index;i++){
+            for(int j=0;j<=sum;j++){
+                
+                if(i==0 && j==0){
+                    map[i][j] = true;
+                    continue;
+                }
+                
+                if(i==0){
+                    map[i][j] = false;
+                    continue;
+                }
+                
+                if(j == 0){
+                    map[i][j] = true;
+                    continue;
+                }
+                
+                if(nums[i-1]>j){
+                    map[i][j] = map[i-1][j];
+                }else{
+                    map[i][j] = map[i-1][j] || map[i-1][j-nums[i-1]];
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+1D memoized 
+
