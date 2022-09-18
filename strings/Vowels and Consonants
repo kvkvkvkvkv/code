@@ -1,0 +1,105 @@
+O(n) == time
+O(n) == space
+
+public class Solution {
+    public int solve(String A) {
+        
+        int len = A.length();
+        if(len<2){
+            return 0;
+        }
+        
+        int count = 0;
+        
+        
+        int[] consonantVowel = new int[len];
+        int[] vowelConsonant = new int[len];
+        
+        
+        for(int i=1;i<len;i++){
+            char cur = A.charAt(i);
+            if(!isVowel(cur)){
+                 consonantVowel[i] = consonantVowel[i-1];   
+            }else{
+                consonantVowel[i] = consonantVowel[i-1] + 1;
+            }
+        }
+        
+        for(int i=1;i<len;i++){
+            char cur = A.charAt(i);
+            if(isVowel(cur)){
+                 vowelConsonant[i] = vowelConsonant[i-1];   
+            }else{
+                vowelConsonant[i] = vowelConsonant[i-1] + 1;
+            }
+        }
+        
+        
+        for(int i=0;i<len;i++){
+            char cur = A.charAt(i);
+            if(isVowel(cur)){
+                count += vowelConsonant[len-1] - vowelConsonant[i];
+            }else{
+                count += consonantVowel[len-1] - consonantVowel[i];
+            }
+        }
+        
+        return count % 1000000007;
+        
+    }
+    
+    boolean isVowel(char cur){
+        return cur == 'a' || cur == 'e' || cur == 'i' || cur == 'o' || cur == 'u';
+    }
+}
+
+
+
+
+O(n) == time
+O(1) == space
+
+public class Solution {
+    public int solve(String A) {
+        
+        int len = A.length();
+        if(len<2){
+            return 0;
+        }
+        
+        int count = 0;  
+        int vowel = 0;
+        int consonant = 0;
+        for(int i=0;i<len;i++){
+            char cur = A.charAt(i);
+            if(isVowel(cur)){
+                vowel++;
+            }
+        }
+        
+        consonant = len - vowel;
+         
+        for(int i=0;i<len;i++){
+            char cur = A.charAt(i);
+            
+            if(isVowel(cur)){
+                if(consonant>0){
+                    count += consonant;
+                    vowel--; 
+                }
+            }else{
+                if(vowel>0){
+                    count += vowel;
+                    consonant--;
+                }
+            }
+        }
+        
+        return count % 1000000007;
+        
+    }
+    
+    boolean isVowel(char cur){
+        return cur == 'a' || cur == 'e' || cur == 'i' || cur == 'o' || cur == 'u';
+    }
+}
