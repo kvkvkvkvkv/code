@@ -1,0 +1,55 @@
+class Solution {
+    int[] rank;
+    int[] root;
+    public int findCircleNum(int[][] isConnected) {
+        rank = new int[isConnected.length];
+        root = new int[isConnected.length];
+        int n = isConnected.length;
+        for(int i=0;i<n;i++) {
+            root[i] = i;
+            rank[i] = 1;
+        }
+
+        for(int i=0; i<n;i++) {
+            for(int j = i; j<n;j++) {
+                if(isConnected[i][j]==1){
+                    union(i,j);
+                }
+            }
+        }
+
+        int count = 0;
+        for(int i=0;i<n;i++){
+            if(root[i]==i){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    int find(int pos) {
+        if(root[pos] == pos){
+            return pos;
+        }
+        root[pos] = find(root[pos]);
+        return root[pos];
+    }
+
+    void union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if(rootX != rootY) {
+            if(rank[rootX] > rank[rootY]) {
+                root[rootY] = rootX;
+            } else if(rank[rootY] > rank[rootX]) {
+                root[rootX] = rootY;
+            } else {
+                root[rootX] = rootY;
+                rank[rootY]++;
+            }
+        }
+    }
+}
+
+https://leetcode.com/problems/number-of-provinces/
