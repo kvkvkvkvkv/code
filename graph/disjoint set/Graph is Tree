@@ -1,0 +1,65 @@
+class Solution {
+    int[] rank;
+    int[] root;
+    boolean cycle;
+    public boolean validTree(int n, int[][] edges) {
+        rank = new int[n];
+        root = new int[n];
+
+        if(edges.length != n-1) {
+            return false;
+        }
+        
+        for(int i=0;i<n;i++) {
+            rank[i] = 1;
+            root[i] = i;
+        }
+
+        for(int[] ele:edges) {
+            union(ele[0],ele[1]);
+        }
+
+        int count=0;
+        for(int i=0;i<n;i++) {
+            if(root[i]==i) {
+                count++;
+            }
+        }
+
+        return count==1 && !cycle;
+
+    }
+
+    int find(int x) {
+
+        if(root[x] == x) {
+            return x;
+        }
+        return root[x] = find(root[x]);
+    }
+
+    void union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if(rootX!=rootY){
+            if(rank[rootX]<rank[rootY]) {
+                root[rootX] = rootY;
+            } else if(rank[rootX]>rank[rootY]) {
+                root[rootY] = rootX;
+            } else {
+                root[rootX] = rootY;
+                rank[rootY]++;
+            }
+        } else {
+            cycle = true;
+            return;
+        }
+    }
+}
+
+https://leetcode.com/problems/graph-valid-tree/
+- n-1 nodes for tree
+- no cycle use disjoint set
+- graph with n-1 edges not connected
+- graph with more than n-1 edges is connected
