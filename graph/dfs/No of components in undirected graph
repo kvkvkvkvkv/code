@@ -1,0 +1,41 @@
+class Solution {
+    Map<Integer, List<Integer>> map;
+    Set<Integer> set;
+    public int countComponents(int n, int[][] edges) {
+        map = new HashMap();
+        set = new HashSet();
+        
+        for(int[] ele: edges) {
+            map.putIfAbsent(ele[0],new ArrayList());
+            map.get(ele[0]).add(ele[1]);
+            map.putIfAbsent(ele[1],new ArrayList());
+            map.get(ele[1]).add(ele[0]);
+        }
+
+        int count = 0;
+        for(int i=0;i<n;i++) {
+            if(!set.contains(i)) {
+                count++;
+                graph(i);
+            }
+        }
+        return count;
+    }
+
+    void graph(int cur) {
+        if(set.contains(cur)) {
+            return;
+        }
+        set.add(cur);
+        if(map.get(cur) == null) {
+            return;
+        }
+        for(int ele:map.get(cur)) {
+            graph(ele);
+        }
+    }
+}
+
+
+
+https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/
